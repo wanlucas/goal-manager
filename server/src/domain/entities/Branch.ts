@@ -13,7 +13,7 @@ export default class Branch {
   public readonly xp: number;
   public readonly icon: number;
 	
-  constructor({name, id, userId, xp, icon}: IBranch) {
+  constructor({ name, id, userId, xp, icon }: IBranch) {
     if (!name) {
       throw new Error('Branch must have a name');
     }
