@@ -63,7 +63,7 @@ describe('Branch', () => {
   });
 
   test('should throw an error if icon is not a number', () => {
-    const params = { ...RequiredFields, icon: 'string'} as unknown as IBranch;
+    const params = { ...RequiredFields, icon: 'string' } as unknown as IBranch;
 
     expect(() => new Branch(params))
       .toThrowError('Branch icon must be a number');
