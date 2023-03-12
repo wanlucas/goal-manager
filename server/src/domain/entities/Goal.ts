@@ -4,6 +4,7 @@ export interface IGoal {
   branchId: string;
   finalDate: string;
   difficulty: number;
+  isCompleted: boolean;
 }
 
 export default class Goal {
@@ -11,9 +12,10 @@ export default class Goal {
   public readonly id: string;
   public readonly branchId: string;
   public readonly finalDate: string;
-  public readonly difficulty: number; 
+  public readonly difficulty: number;
+  public isCompleted: boolean;
 
-  constructor ({ description, id, branchId, finalDate, difficulty }: IGoal) {
+  constructor ({ description, id, branchId, finalDate, difficulty, isCompleted }: IGoal) {
     if (!description) {
       throw new Error('Goal must have a description');
     }
@@ -62,10 +64,19 @@ export default class Goal {
       throw new Error('Goal difficulty must be between 1 and 10');
     }
 
+    if (isCompleted && typeof isCompleted !== 'boolean') {
+      throw new Error('Goal isCompleted must be a boolean');
+    }
+
     this.description = description;
     this.id = id;
     this.branchId = branchId;
     this.finalDate = finalDate;
     this.difficulty = difficulty;
+    this.isCompleted = isCompleted || false;
+  }
+
+  public conclude () {
+    this.isCompleted = true;
   }
 }
