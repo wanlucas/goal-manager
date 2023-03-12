@@ -1,6 +1,7 @@
 export interface IGoal {
   description: string;
   id: string;
+  target?: number;
   branchId: string;
   finalDate: string;
   difficulty: number;
@@ -10,12 +11,13 @@ export interface IGoal {
 export default class Goal {
   public readonly description: string;
   public readonly id: string;
+  public readonly target?: number;
   public readonly branchId: string;
-  public readonly finalDate: string;
+  public readonly finalDate?: string;
   public readonly difficulty: number;
   public isCompleted: boolean;
 
-  constructor ({ description, id, branchId, finalDate, difficulty, isCompleted }: IGoal) {
+  constructor ({ description, id, target, branchId, finalDate, difficulty, isCompleted }: IGoal) {
     if (!description) {
       throw new Error('Goal must have a description');
     }
@@ -30,6 +32,16 @@ export default class Goal {
 
     if (typeof id !== 'string') {
       throw new Error('Goal id must be a string');
+    }
+
+    if (target) {
+      if (typeof target !== 'number') {
+        throw new Error('Goal target must be a number');
+      }
+
+      if (target < 0) {
+        throw new Error('Goal target must be greater than 0');
+      }
     }
 
     if (!branchId) {
@@ -74,6 +86,10 @@ export default class Goal {
     this.finalDate = finalDate;
     this.difficulty = difficulty;
     this.isCompleted = isCompleted || false;
+
+    if (target) {
+      this.target = target;
+    }
   }
 
   public conclude () {
