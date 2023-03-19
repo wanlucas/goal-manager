@@ -1,29 +1,41 @@
 import Goal from '../../../src/domain/entities/Goal';
+import BranchRepository from '../../../src/domain/repositories/BranchRepository';
 import GoalRepository from '../../../src/domain/repositories/GoalRepository';
-import CreateGoal, { CreateGoalDTO } from '../../../src/domain/useCases/goal/CreateGoal';
+import CreateGoal from '../../../src/domain/useCases/goal/CreateGoal';
 import GetGoal from '../../../src/domain/useCases/goal/GetGoal';
 import GetGoals from '../../../src/domain/useCases/goal/GetGoals';
-import { getDateInOneMonth } from '../../helpers/time';
-import goalsMock from '../../mocks/goal';
+import goalsMock, { validBody } from '../../mocks/goal';
 
 describe('Goal use cases', () => {
   describe('CreateGoal', () => {
-    const goalRepository = {
-      save: (goal: Goal) => Promise.resolve(goal.id),
-    } as unknown as GoalRepository;
-    
     test('should create a goal', async () => {
-      const payload: CreateGoalDTO = {
-        description: 'Learn how to use Jest',
-        branchId: '6ec0bd4f-f1c0-43da-975e-2a8ad9eb2853',
-        finalDate: getDateInOneMonth(),
-        difficulty: 2,
-      };
+      const goalRepository = {
+        save: (goal: Goal) => Promise.resolve(goal.id),
+      } as unknown as GoalRepository;
 
-      const creategoal = new CreateGoal(goalRepository);
-      const result = await creategoal.execute(payload);
+      const branchRepository = {
+        findById: () => Promise.resolve(goalsMock[0].branchId),
+      } as unknown as BranchRepository;
+
+      const creategoal = new CreateGoal(goalRepository, branchRepository);
+      const result = await creategoal.execute(validBody);
   
       expect(result).toBeInstanceOf(Goal);
+    });
+
+    test('should fail if branch not found', async () => {
+      const goalRepository = {
+        save: (goal: Goal) => Promise.resolve(goal.id),
+      } as unknown as GoalRepository;
+
+      const branchRepository = {
+        findById: () => Promise.resolve(undefined),
+      } as unknown as BranchRepository;
+
+      const createGoal = new CreateGoal(goalRepository, branchRepository);
+      const result = createGoal.execute(validBody);
+
+      expect(result).rejects.toThrow('Branch not found');
     });
   });
 

@@ -1,4 +1,12 @@
+import { CreateGoalDTO } from '../../src/domain/useCases/goal/CreateGoal';
 import { getDateInOneMonth } from '../helpers/time';
+
+export const validBody: CreateGoalDTO = {
+  description: 'Learn how to use Jest',
+  branchId: '6ec0bd4f-f1c0-43da-975e-2a8ad9eb2853',
+  finalDate: getDateInOneMonth(),
+  difficulty: 2,
+};
 
 export default [
   {
