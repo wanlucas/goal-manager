@@ -1,7 +1,9 @@
 import Goal from '../../../src/domain/entities/Goal';
 import GoalRepository from '../../../src/domain/repositories/GoalRepository';
 import CreateGoal, { CreateGoalDTO } from '../../../src/domain/useCases/goal/CreateGoal';
+import GetGoals from '../../../src/domain/useCases/goal/GetGoals';
 import { getDateInOneMonth } from '../../helpers/time';
+import goalsMock from '../../mocks/goal';
 
 describe('Goal use cases', () => {
   describe('CreateGoal', () => {
@@ -21,6 +23,19 @@ describe('Goal use cases', () => {
       const result = await creategoal.execute(payload);
   
       expect(result).toBeInstanceOf(Goal);
+    });
+  });
+
+  describe('GetGoals', () => {
+    const goalRepository = {
+      findAll: () => Promise.resolve(goalsMock),
+    } as unknown as GoalRepository;
+
+    test('should get all goals', async () => {
+      const getGoals = new GetGoals(goalRepository);
+      const result = await getGoals.execute();
+
+      expect(result).toEqual(goalsMock);
     });
   });
 });
