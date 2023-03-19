@@ -1,6 +1,7 @@
 import Branch from '../../../src/domain/entities/Branch';
 import BranchRepository from '../../../src/domain/repositories/BranchRepository';
 import CreateBranch, { CreateBranchDTO } from '../../../src/domain/useCases/branch/Createbranch';
+import GetBranch from '../../../src/domain/useCases/branch/GetBranch';
 import GetBranchs from '../../../src/domain/useCases/branch/GetBranchs';
 import branchsMock from '../../mocks/branch';
 
@@ -33,6 +34,19 @@ describe('Branch use cases', () => {
       const result = await getBranchs.execute();
   
       expect(result).toEqual(branchsMock);
+    });
+  });
+
+  describe('GetBranch', () => {
+    const branchRepository: BranchRepository = {
+      findById: () => Promise.resolve(branchsMock[0]),
+    } as unknown as BranchRepository;
+
+    test('should find a branch', async () => {
+      const getBranch = new GetBranch(branchRepository);
+      const result = await getBranch.execute(branchsMock[0].id);
+  
+      expect(result).toEqual(branchsMock[0]);
     });
   });
 });
