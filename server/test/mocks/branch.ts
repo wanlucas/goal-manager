@@ -1,3 +1,10 @@
+import { CreateBranchDTO } from '../../src/domain/useCases/branch/Createbranch';
+
+export const validBody: CreateBranchDTO = {
+  userId: '6ec0bd7f-11c0-43da-975e-2a8ad9ebae02',
+  name: 'Guitar',
+};
+
 export default [
   {
     xp: 150,

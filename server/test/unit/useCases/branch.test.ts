@@ -1,26 +1,42 @@
 import Branch from '../../../src/domain/entities/Branch';
 import BranchRepository from '../../../src/domain/repositories/BranchRepository';
-import CreateBranch, { CreateBranchDTO } from '../../../src/domain/useCases/branch/Createbranch';
+import UserRepository from '../../../src/domain/repositories/UserRepository';
+import CreateBranch from '../../../src/domain/useCases/branch/Createbranch';
 import GetBranch from '../../../src/domain/useCases/branch/GetBranch';
 import GetBranchs from '../../../src/domain/useCases/branch/GetBranchs';
-import branchsMock from '../../mocks/branch';
+import branchsMock, { validBody } from '../../mocks/branch';
+import usersMock from '../../mocks/user';
 
 describe('Branch use cases', () => {
   describe('CreateBranch', () => {
-    const branchRepository = {
-      save: (branch: Branch) => Promise.resolve(branch.id),
-    } as unknown as BranchRepository;
-    
     test('should create a branch', async () => {
-      const payload: CreateBranchDTO = {
-        userId: '6ec0bd7f-11c0-43da-975e-2a8ad9ebae02',
-        name: 'Guitar',
-      };
+      const branchRepository = {
+        save: (branch: Branch) => Promise.resolve(branch.id),
+      } as unknown as BranchRepository;
 
-      const createBranch = new CreateBranch(branchRepository);
-      const result = await createBranch.execute(payload);
+      const userRepository = {
+        findById: () => Promise.resolve(usersMock[0]),
+      } as unknown as UserRepository;
+
+      const createBranch = new CreateBranch(branchRepository, userRepository);
+      const result = await createBranch.execute(validBody);
   
       expect(result).toBeInstanceOf(Branch);
+    });
+
+    test('should fail if user not found', async () => {
+      const branchRepository = {
+        save: (branch: Branch) => Promise.resolve(branch.id),
+      } as unknown as BranchRepository;
+
+      const userRepository = {
+        findById: () => Promise.resolve(undefined),
+      } as unknown as UserRepository;
+
+      const createBranch = new CreateBranch(branchRepository, userRepository);
+      const result = createBranch.execute(validBody);
+
+      expect(result).rejects.toThrow('User not found');
     });
   });
 
