@@ -1,16 +1,5 @@
 import Goal, { IGoal } from '../../../src/domain/entities/Goal';
-
-const getDateInOneMonth = () => {
-  const date = new Date();
-  date.setMonth(date.getMonth() + 1);
-  return date.toJSON();
-};
-
-const getDateOneMonthAgo = () => {
-  const date = new Date();
-  date.setMonth(date.getMonth() - 1);
-  return date.toJSON();
-};
+import { getDateInOneMonth, getDateOneMonthAgo } from '../../helpers/time';
 
 describe('Goal', () => {
   const requiredFields = {
