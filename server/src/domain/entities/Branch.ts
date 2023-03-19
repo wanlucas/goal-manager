@@ -2,8 +2,8 @@ export interface IBranch {
 	name: string;
 	id: string;
 	userId: string;
-	xp: number;
-	icon: number;
+	xp?: number;
+	icon?: number;
 }
 
 export default class Branch {
