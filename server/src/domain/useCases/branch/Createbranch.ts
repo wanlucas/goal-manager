@@ -16,9 +16,9 @@ export default class CreateBranch {
     this.branchRepository = branchRepository;
   }
 
-  async execute(data: CreateBranchDTO): Promise<Branch> {
+  async execute(payload: CreateBranchDTO): Promise<Branch> {
     const id = uuid();
-    const branch = new Branch({ ...data, id });
+    const branch = new Branch({ ...payload, id });
 
     await this.branchRepository.save(branch);
 
