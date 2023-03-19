@@ -13,7 +13,7 @@ export default class Goal {
   public readonly id: string;
   public readonly target?: number;
   public readonly branchId: string;
-  public readonly finalDate?: string;
+  public readonly finalDate: string;
   public readonly difficulty: number;
   public isCompleted: boolean;
 
