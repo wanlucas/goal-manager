@@ -1,28 +1,34 @@
 import User from '../../../src/domain/entities/User';
 import UserRepository from '../../../src/domain/repositories/UserRepository';
-import CreateUser, { CreateUserDTO } from '../../../src/domain/useCases/user/CreateUser';
+import CreateUser from '../../../src/domain/useCases/user/CreateUser';
 import GetUser from '../../../src/domain/useCases/user/GetUser';
 import GetUsers from '../../../src/domain/useCases/user/GetUsers';
-import usersMock from '../../mocks/user';
+import usersMock, { validBody } from '../../mocks/user';
 
 describe('User use cases', () => {
   describe('CreateUser', () => {
-    const UserRepository = {
-      save: (User: User) => Promise.resolve(User.id),
-    } as unknown as UserRepository;
-    
     test('should create a User', async () => {
-      const payload: CreateUserDTO = {
-        name: 'John Doe',
-        nickname: 'johndoe',
-        email: 'JohnDoe@gmail.com',
-        password: '123456',
-      };
+      const UserRepository = {
+        save: (User: User) => Promise.resolve(User.id),
+        findByNickname: () => Promise.resolve(undefined),
+      } as unknown as UserRepository;
 
       const createUser = new CreateUser(UserRepository);
-      const result = await createUser.execute(payload);
+      const result = await createUser.execute(validBody);
   
       expect(result).toBeInstanceOf(User);
+    });
+
+    test('should fail if nickname already exists', async () => {
+      const UserRepository = {
+        save: (User: User) => Promise.resolve(User.id),
+        findByNickname: () => Promise.resolve(usersMock[0]),
+      } as unknown as UserRepository;
+
+      const createUser = new CreateUser(UserRepository);
+      const result = createUser.execute(validBody);
+
+      expect(result).rejects.toThrow('Nickname already exists');
     });
   });
 

@@ -1,3 +1,11 @@
+import { CreateUserDTO } from '../../src/domain/useCases/user/CreateUser';
+
+export const validBody: CreateUserDTO = {
+  name: 'Wan Lucas',
+  nickname: 'Wan',
+  password: '123456',
+};
+
 export default [
   {
     name: 'Wan Lucas',
