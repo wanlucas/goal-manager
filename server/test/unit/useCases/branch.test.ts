@@ -1,23 +1,38 @@
 import Branch from '../../../src/domain/entities/Branch';
 import BranchRepository from '../../../src/domain/repositories/BranchRepository';
 import CreateBranch, { CreateBranchDTO } from '../../../src/domain/useCases/branch/Createbranch';
+import GetBranchs from '../../../src/domain/useCases/branch/GetBranchs';
+import branchsMock from '../../mocks/branch';
 
 describe('Branch use cases', () => {
-  const branchRepository: BranchRepository = {
-    save: (branch: Branch) => Promise.resolve(branch.id),
-  };
-
-  const data: CreateBranchDTO = {
-    userId: '6ec0bd7f-11c0-43da-975e-2a8ad9ebae02',
-    name: 'Guitar',
-  };
-
   describe('CreateBranch', () => {
+    const branchRepository = {
+      save: (branch: Branch) => Promise.resolve(branch.id),
+    } as unknown as BranchRepository;
+    
     test('should create a branch', async () => {
+      const payload: CreateBranchDTO = {
+        userId: '6ec0bd7f-11c0-43da-975e-2a8ad9ebae02',
+        name: 'Guitar',
+      };
+
       const createBranch = new CreateBranch(branchRepository);
-      const result = await createBranch.execute(data);
+      const result = await createBranch.execute(payload);
   
       expect(result).toBeInstanceOf(Branch);
+    });
+  });
+
+  describe('GetBranchs', () => {
+    const branchRepository: BranchRepository = {
+      findAll: () => Promise.resolve(branchsMock),
+    } as unknown as BranchRepository;
+
+    test('should return a list of branchs', async () => {
+      const getBranchs = new GetBranchs(branchRepository);
+      const result = await getBranchs.execute();
+  
+      expect(result).toEqual(branchsMock);
     });
   });
 });
