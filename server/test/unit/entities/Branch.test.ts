@@ -1,6 +1,6 @@
 import Branch, { IBranch } from '../../../src/domain/entities/Branch';
 
-describe('Branch', () => {
+describe('Branch entity', () => {
   const requiredFields = {
     name: 'test',
     id: '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b',
