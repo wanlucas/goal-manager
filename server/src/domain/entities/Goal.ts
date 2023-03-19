@@ -1,11 +1,11 @@
 export interface IGoal {
   description: string;
   id: string;
-  target?: number;
   branchId: string;
   finalDate: string;
   difficulty: number;
-  isCompleted: boolean;
+  target?: number;
+  isCompleted?: boolean;
 }
 
 export default class Goal {
