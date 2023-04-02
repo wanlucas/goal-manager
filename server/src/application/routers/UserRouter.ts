@@ -10,6 +10,7 @@ export default class UserRouter extends ExpressRouter {
   }
 
   private createRoutes() {
+    this.router.get('/', this.userController.getAll);
     this.router.post('/', this.userController.create);
   }
 
