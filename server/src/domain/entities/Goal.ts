@@ -1,3 +1,5 @@
+import { InvalidValuesError, MissingValuesError } from '../errors/EntityError';
+
 export interface IGoal {
   description: string;
   id: string;
@@ -19,65 +21,65 @@ export default class Goal {
 
   constructor ({ description, id, target, branchId, finalDate, difficulty, isCompleted }: IGoal) {
     if (!description) {
-      throw new Error('Goal must have a description');
+      throw new MissingValuesError('Goal must have a description');
     }
 
     if (typeof description !== 'string') {
-      throw new Error('Goal description must be a string');
+      throw new InvalidValuesError('Goal description must be a string');
     }
 
     if (!id) {
-      throw new Error('Goal must have an id');
+      throw new InvalidValuesError('Goal must have an id');
     }
 
     if (typeof id !== 'string') {
-      throw new Error('Goal id must be a string');
+      throw new InvalidValuesError('Goal id must be a string');
     }
 
     if (target) {
       if (typeof target !== 'number') {
-        throw new Error('Goal target must be a number');
+        throw new InvalidValuesError('Goal target must be a number');
       }
 
       if (target < 0) {
-        throw new Error('Goal target must be greater than 0');
+        throw new InvalidValuesError('Goal target must be greater than 0');
       }
     }
 
     if (!branchId) {
-      throw new Error('Goal must have a branch id');
+      throw new MissingValuesError('Goal must have a branch id');
     }
 
     if (typeof branchId !== 'string') {
-      throw new Error('Goal branch id must be a string');
+      throw new InvalidValuesError('Goal branch id must be a string');
     }
 
     if (!finalDate) {
-      throw new Error('Goal must have a final date');
+      throw new MissingValuesError('Goal must have a final date');
     }
 
     if (typeof finalDate !== 'string') {
-      throw new Error('Goal final date must be a string');
+      throw new InvalidValuesError('Goal final date must be a string');
     }
 
     if (new Date(finalDate).getTime() < new Date().getTime()) {
-      throw new Error('Goal final date must be in the future');
+      throw new InvalidValuesError('Goal final date must be in the future');
     }
 
     if (!difficulty) {
-      throw new Error('Goal must have a difficulty');
+      throw new MissingValuesError('Goal must have a difficulty');
     }
 
     if (typeof difficulty !== 'number') {
-      throw new Error('Goal difficulty must be a number');
+      throw new InvalidValuesError('Goal difficulty must be a number');
     }
 
     if (difficulty < 1 || difficulty > 10) {
-      throw new Error('Goal difficulty must be between 1 and 10');
+      throw new InvalidValuesError('Goal difficulty must be between 1 and 10');
     }
 
     if (isCompleted && typeof isCompleted !== 'boolean') {
-      throw new Error('Goal isCompleted must be a boolean');
+      throw new InvalidValuesError('Goal isCompleted must be a boolean');
     }
 
     this.description = description;

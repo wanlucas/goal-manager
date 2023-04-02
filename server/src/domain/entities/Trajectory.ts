@@ -1,3 +1,6 @@
+import { InvalidValuesError, MissingValuesError } from '../errors/EntityError';
+
+
 export interface ITrajectory {
   goalId: string;
   id: string;
@@ -13,31 +16,31 @@ export default class Trajectory {
 
   constructor({ goalId, id, score }: ITrajectory) {
     if (!goalId) {
-      throw new Error('Trajectory must have a goalId');
+      throw new MissingValuesError('Trajectory must have a goalId');
     }
 
     if (typeof goalId !== 'string') {
-      throw new Error('Trajectory goalId must be a string');
+      throw new InvalidValuesError('Trajectory goalId must be a string');
     }
 
     if (!id) {
-      throw new Error('Trajectory must have an id');
+      throw new MissingValuesError('Trajectory must have an id');
     }
 
     if (typeof id !== 'string') {
-      throw new Error('Trajectory id must be a string');
+      throw new InvalidValuesError('Trajectory id must be a string');
     }
 
     if (!score) {
-      throw new Error('Trajectory must have a score');
+      throw new MissingValuesError('Trajectory must have a score');
     }
 
     if (typeof score !== 'number') {
-      throw new Error('Trajectory score must be a number');
+      throw new InvalidValuesError('Trajectory score must be a number');
     }
 
     if (score < 0) {
-      throw new Error('Trajectory score must be greater than 0');
+      throw new InvalidValuesError('Trajectory score must be greater than 0');
     }
 
     this.goalId = goalId;

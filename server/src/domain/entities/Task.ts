@@ -1,3 +1,5 @@
+import { InvalidValuesError, MissingValuesError } from '../errors/EntityError';
+
 export interface ITask {
   id: string,
   title: string,
@@ -15,55 +17,55 @@ export default class Task {
   
   constructor({ id, goalId, title, difficulty, days }: ITask) {
     if (!id) {
-      throw new Error('Task must have an id');
+      throw new MissingValuesError('Task must have an id');
     }
 
     if (typeof id !== 'string') {
-      throw new Error('Task id must be a string');
+      throw new InvalidValuesError('Task id must be a string');
     }
 
     if (!goalId) {
-      throw new Error('Task must have a goalId');
+      throw new MissingValuesError('Task must have a goalId');
     }
 
     if (typeof goalId !== 'string') {
-      throw new Error('Task goalId must be a string');
+      throw new InvalidValuesError('Task goalId must be a string');
     }
 
     if (!title) {
-      throw new Error('Task must have a title');
+      throw new MissingValuesError('Task must have a title');
     }
 
     if (typeof title !== 'string') {
-      throw new Error('Task title must be a string');
+      throw new InvalidValuesError('Task title must be a string');
     }
 
     if (!difficulty) {
-      throw new Error('Task must have a difficulty');
+      throw new MissingValuesError('Task must have a difficulty');
     }
 
     if (typeof difficulty !== 'number') {
-      throw new Error('Task difficulty must be a number');
+      throw new InvalidValuesError('Task difficulty must be a number');
     }
 
     if (difficulty < 1 || difficulty > 10) {
-      throw new Error('Task difficulty must be between 1 and 10');
+      throw new InvalidValuesError('Task difficulty must be between 1 and 10');
     }
 
     if (!days) {
-      throw new Error('Task must have days');
+      throw new MissingValuesError('Task must have days');
     }
 
     if (!Array.isArray(days)) {
-      throw new Error('Task days must be an array');
+      throw new InvalidValuesError('Task days must be an array');
     }
 
     if (!days.length) {
-      throw new Error('Task days must have at least one day');
+      throw new InvalidValuesError('Task days must have at least one day');
     }
 
     if (days.some((day) => typeof day !== 'number')) {
-      throw new Error('Task days must be an array of numbers');
+      throw new InvalidValuesError('Task days must be an array of numbers');
     }
 
     this.id = id;

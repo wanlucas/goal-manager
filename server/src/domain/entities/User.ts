@@ -1,3 +1,5 @@
+import { InvalidValuesError, MissingValuesError } from '../errors/EntityError';
+
 export interface IUser {
   name: string;
   nickname: string;
@@ -13,35 +15,35 @@ export default class User {
 
   constructor({ name, nickname, id, password }: IUser) {
     if (!name) {
-      throw new Error('User must have a name');
+      throw new MissingValuesError('User must have a name');
     }
 
     if (typeof name !== 'string') {
-      throw new Error('User name must be a string');
+      throw new InvalidValuesError('User name must be a string');
     }
 
     if (!nickname) {
-      throw new Error('User must have a nickname');
+      throw new MissingValuesError('User must have a nickname');
     }
 
     if (typeof nickname !== 'string') {
-      throw new Error('User nickname must be a string');
+      throw new InvalidValuesError('User nickname must be a string');
     }
 
     if (typeof id !== 'string') {
-      throw new Error('User id must be a string');
+      throw new InvalidValuesError('User id must be a string');
     }
 
     if (!password) {
-      throw new Error('User must have a password');
+      throw new MissingValuesError('User must have a password');
     }
 
     if (password.length < 6) {
-      throw new Error('User password must be at least 8 characters long');
+      throw new InvalidValuesError('User password must be at least 8 characters long');
     }
 
     if (typeof password !== 'string') {
-      throw new Error('User password must be a string');
+      throw new InvalidValuesError('User password must be a string');
     }
 
     this.name = name;
