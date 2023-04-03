@@ -1,9 +1,8 @@
-export default class EntityError extends Error {
-  public status: number;
-  
+import CoreError from './CoreError';
+
+export default class EntityError extends CoreError {
   constructor(message: string, status: number) {
-    super(message);
-    this.status = status;
+    super(message, status, 'Entity');
   }
 }
 

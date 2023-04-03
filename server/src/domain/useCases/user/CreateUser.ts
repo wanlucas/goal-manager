@@ -1,4 +1,5 @@
 import User from '../../entities/User';
+import { AlreadyExistsError } from '../../errors/relationshipError';
 import UserRepository from '../../repositories/UserRepository';
 import { v4 as uuid } from 'uuid';
 
@@ -22,7 +23,7 @@ export default class CreateUser {
     const foundNickName = await this.userRepository.findByNickname(user.nickname);
 
     if (foundNickName) {
-      throw new Error('Nickname already exists');
+      throw new AlreadyExistsError('Nickname already exists');
     }
 
     await this.userRepository.save(user);

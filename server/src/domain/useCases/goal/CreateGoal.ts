@@ -2,6 +2,7 @@ import Goal from '../../entities/Goal';
 import GoalRepository from '../../repositories/GoalRepository';
 import { v4 as uuid } from 'uuid';
 import BranchRepository from '../../repositories/BranchRepository';
+import { NotFindingError } from '../../errors/relationshipError';
 
 export interface CreateGoalDTO {
   description: string;
@@ -28,7 +29,7 @@ export default class CreateGoal {
     const foundBranch = await this.branchRepository.findById(goal.branchId);
 
     if (!foundBranch) {
-      throw new Error('Branch not found');
+      throw new NotFindingError('Branch not found');
     }
 
     await this.goalRepository.save(goal);
