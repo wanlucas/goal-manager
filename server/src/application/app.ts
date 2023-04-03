@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/user', UserRouterFactory.make());
+app.use('/users', UserRouterFactory.make());
 
 app.use(errorHandler);
 
