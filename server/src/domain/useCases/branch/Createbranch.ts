@@ -2,7 +2,7 @@ import Branch from '../../entities/Branch';
 import BranchRepository from '../../repositories/BranchRepository';
 import { v4 as uuid } from 'uuid';
 import UserRepository from '../../repositories/UserRepository';
-import { NotFindingError } from '../../errors/relationshipError';
+import { NotFindingError } from '../../errors/RelationshipError';
 
 export interface CreateBranchDTO {
   name: string;

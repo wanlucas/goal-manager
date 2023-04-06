@@ -1,3 +1,4 @@
+import User from '../../entities/User';
 import UserRepository from '../../repositories/UserRepository';
 
 export default class GetUser {
@@ -7,7 +8,11 @@ export default class GetUser {
     this.userRepository = userRepository;
   }
 
-  execute(id: string) {
-    return this.userRepository.findById(id);
+  async execute(id: string) {
+    const result = await this.userRepository.findById(id);
+
+    if (!result) return null;
+
+    return new User(result); 
   }
 }

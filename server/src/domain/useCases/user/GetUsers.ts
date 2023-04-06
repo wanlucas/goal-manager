@@ -1,3 +1,4 @@
+import User from '../../entities/User';
 import UserRepository from '../../repositories/UserRepository';
 
 export default class GetUsers {
@@ -7,7 +8,9 @@ export default class GetUsers {
     this.userRepository = userRepository;
   }
 
-  execute() {
-    return this.userRepository.findAll();
+  async execute() {
+    const result = await this.userRepository.findAll();
+
+    return result.map((data) => new User(data));
   }
 }

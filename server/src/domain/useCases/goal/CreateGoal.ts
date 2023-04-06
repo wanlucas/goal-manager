@@ -2,7 +2,7 @@ import Goal from '../../entities/Goal';
 import GoalRepository from '../../repositories/GoalRepository';
 import { v4 as uuid } from 'uuid';
 import BranchRepository from '../../repositories/BranchRepository';
-import { NotFindingError } from '../../errors/relationshipError';
+import { NotFindingError } from '../../errors/RelationshipError';
 
 export interface CreateGoalDTO {
   description: string;

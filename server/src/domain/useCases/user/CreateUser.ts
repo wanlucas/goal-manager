@@ -1,5 +1,5 @@
 import User from '../../entities/User';
-import { AlreadyExistsError } from '../../errors/relationshipError';
+import { AlreadyExistsError } from '../../errors/RelationshipError';
 import UserRepository from '../../repositories/UserRepository';
 import { v4 as uuid } from 'uuid';
 
