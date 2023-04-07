@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import colors from '../constants/colors';
+import { inputHeights } from '../constants/sizes';
 
-export interface ButtonProps {
+interface ButtonProps {
   onCLick: () => void;
   children: React.ReactNode;
   type?: 'cancel' | 'submit' | 'normal';
@@ -17,6 +18,7 @@ const StyledButton = styled.button`
   border-radius: 10px;
   min-width: 100px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid ${(props) => props.theme.bg};
   background-color: ${(props) => props.theme.bg};
   color: ${(props) => props.theme.fc};
   &:hover {
@@ -34,13 +36,13 @@ const cancelTheme = {
 };
 
 const submitTheme = {
-  fc: colors.white,
+  fc: colors.black,
   bg: colors.success,
 };
 
 const normalTheme = {
-  fc: colors.black,
-  bg: colors.tertiary,
+  fc: colors.white,
+  bg: colors.secondary,
 };
 
 export default function Button({ onCLick, type, size, children, sx }: ButtonProps) {
@@ -55,23 +57,12 @@ export default function Button({ onCLick, type, size, children, sx }: ButtonProp
     }
   }, [type]);
 
-  const paddingBlock = useMemo(() => {
-    switch (size) {
-    case 'small':
-      return '8px';
-    case 'large':
-      return '12px';
-    default:
-      return '10px';
-    }
-  }, [size]);
-
   return (
     <StyledButton
       onClick={onCLick}
       theme={theme}
       style={{ 
-        paddingBlock,
+        paddingBlock: inputHeights[size || 'normal'],
         ...sx,
       }}
     >
