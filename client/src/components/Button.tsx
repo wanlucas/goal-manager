@@ -4,10 +4,11 @@ import colors from '../constants/colors';
 import { inputHeights } from '../constants/sizes';
 
 interface ButtonProps {
-  onCLick: () => void;
   children: React.ReactNode;
-  type?: 'cancel' | 'submit' | 'normal';
+  onCLick?: () => void;
+  theme?: 'cancel' | 'submit' | 'primary';
   size?: 'small' | 'large' | 'normal';
+  type?: string;
   sx?: React.CSSProperties;
 }
 
@@ -30,37 +31,30 @@ const StyledButton = styled.button`
   }
 `;
 
-const cancelTheme = {
-  fc: colors.white,
-  bg: colors.error,
+const themes = {
+  cancel: {
+    fc: colors.white,
+    bg: colors.error,
+  },
+  submit: {
+    fc: colors.black,
+    bg: colors.success,
+  },
+  primary: {
+    fc: colors.white,
+    bg: colors.secondary,
+  }
 };
 
-const submitTheme = {
-  fc: colors.black,
-  bg: colors.success,
-};
 
-const normalTheme = {
-  fc: colors.white,
-  bg: colors.secondary,
-};
-
-export default function Button({ onCLick, type, size, children, sx }: ButtonProps) {
-  const theme = useMemo(() => {
-    switch (type) {
-    case 'cancel':
-      return cancelTheme;
-    case 'submit':
-      return submitTheme;
-    default:
-      return normalTheme;
-    }
-  }, [type]);
-
+export default function Button({ onCLick, theme, type, size, children, sx }: ButtonProps) {
   return (
     <StyledButton
-      onClick={onCLick}
-      theme={theme}
+      theme={themes[theme || 'primary']}
+      type={type || 'button'}
+      onClick={() => {
+        if (onCLick) onCLick();
+      }}
       style={{ 
         paddingBlock: inputHeights[size || 'normal'],
         ...sx,
