@@ -1,5 +1,6 @@
 export default {
   OK: 200,
   CREATED: 201,
+  UNAUTHORIZED: 401,
   INTERNAL_ERROR: 500,
 };
