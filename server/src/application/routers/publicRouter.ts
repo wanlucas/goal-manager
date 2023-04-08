@@ -3,7 +3,7 @@ import userController from '../factories/UserControllerFactory';
 
 const router = express.Router();
 
-router.get('/', userController.findAll);
-router.get('/:userId', userController.findOne);
+router.post('/login', userController.login);
+router.post('/users', userController.create);
 
 export default router;

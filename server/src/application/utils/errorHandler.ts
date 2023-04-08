@@ -13,5 +13,5 @@ export default (
     return response.status(error.status).json({ message: error.message });
   }
 
-  return response.status(statusMap.INTERNAL_ERROR).json({ message: error.message });
+  return response.status(statusMap.INTERNAL_ERROR).json({ message: error.message }); // to tests
 };

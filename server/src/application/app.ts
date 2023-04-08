@@ -1,17 +1,15 @@
 import express from 'express';
-import { UserRouterFactory } from './factories/UserRouterFactory';
 import errorHandler from './utils/errorHandler';
-import TokenValidatorFactory from './factories/TokenValidatorFactory';
+import TokenValidator from './middlewares/TokenValidator';
+import userRouter from './routers/userRouter';
+import publicRouter from './routers/publicRouter';
 
 const app = express();
 
-const tokenValidator = TokenValidatorFactory.make();
-
-const userRouter = UserRouterFactory.make();
-
 app.use(express.json());
 
-app.use('/users', tokenValidator, userRouter);
+app.use('/', publicRouter);
+app.use('/users', TokenValidator.validate, userRouter);
 
 app.use(errorHandler);
 

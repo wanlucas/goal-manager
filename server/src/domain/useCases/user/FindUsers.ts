@@ -1,15 +1,15 @@
 import User from '../../entities/User';
-import UserRepository from '../../repositories/UserRepository';
+import UserRepository, { FindUserDTO } from '../../repositories/UserRepository';
 
-export default class GetUsers {
+export default class FindUsers {
   private userRepository: UserRepository;
   
   constructor(userRepository: UserRepository) { 
     this.userRepository = userRepository;
   }
 
-  async execute() {
-    const result = await this.userRepository.findAll();
+  async execute(values: FindUserDTO) {
+    const result = await this.userRepository.findAll(values);
 
     return result.map((data) => new User(data));
   }

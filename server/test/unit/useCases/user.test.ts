@@ -2,7 +2,7 @@ import User from '../../../src/domain/entities/User';
 import UserRepository from '../../../src/domain/repositories/UserRepository';
 import CreateUser from '../../../src/domain/useCases/user/CreateUser';
 import GetUser from '../../../src/domain/useCases/user/GetUser';
-import GetUsers from '../../../src/domain/useCases/user/GetUsers';
+import GetUsers from '../../../src/domain/useCases/user/FindUsers';
 import usersMock, { validBody } from '../../mocks/user';
 
 describe('User use cases', () => {

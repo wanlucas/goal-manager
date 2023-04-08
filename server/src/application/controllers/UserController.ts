@@ -6,14 +6,16 @@ export default class UserController {
   constructor(
     private userServices: UserServices,
   ) {
-    this.getAll = this.getAll.bind(this);
+    this.findAll = this.findAll.bind(this);
+    this.findById = this.findById.bind(this);
     this.findOne = this.findOne.bind(this);
     this.create = this.create.bind(this);
+    this.login = this.login.bind(this);
   }
 
-  async getAll(_request: Request, response: Response, next: NextFunction) {
+  async findAll(request: Request, response: Response, next: NextFunction) {
     try {
-      const users = await this.userServices.getAll();
+      const users = await this.userServices.findAll(request.query);
   
       return response.status(statusMap.OK).json(users);
     } catch(error) {
@@ -23,8 +25,18 @@ export default class UserController {
 
   async findOne(request: Request, response: Response, next: NextFunction) {
     try {
+      const user = await this.userServices.findOne(request.query);
+  
+      return response.status(statusMap.OK).json(user);
+    } catch(error) {
+      next(error);
+    }
+  }
+
+  async findById(request: Request, response: Response, next: NextFunction) {
+    try {
       const { userId } = request.params;
-      const user = await this.userServices.findOne(userId);
+      const user = await this.userServices.findById(userId);
   
       return response.status(statusMap.OK).json(user);
     } catch(error) {
@@ -38,6 +50,17 @@ export default class UserController {
       const user = await this.userServices.create(body);
   
       return response.status(statusMap.CREATED).json(user);
+    } catch(error) {
+      next(error);
+    }
+  }
+
+  async login(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { nickname, password } = request.body;
+      const user = await this.userServices.login({ nickname, password });
+  
+      return response.status(statusMap.OK).json(user);
     } catch(error) {
       next(error);
     }

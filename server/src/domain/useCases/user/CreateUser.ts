@@ -1,13 +1,7 @@
 import User from '../../entities/User';
 import { AlreadyExistsError } from '../../errors/RelationshipError';
-import UserRepository from '../../repositories/UserRepository';
+import UserRepository, { CreateUserDTO } from '../../repositories/UserRepository';
 import { v4 as uuid } from 'uuid';
-
-export interface CreateUserDTO {
-  name: string;
-  nickname: string;
-  password: string;
-}
 
 export default class CreateUser {
   private userRepository: UserRepository;
@@ -20,7 +14,7 @@ export default class CreateUser {
     const id = uuid();
     const user = new User({ ...payload, id });
 
-    const foundNickName = await this.userRepository.findByNickname(user.nickname);
+    const foundNickName = await this.userRepository.findOne({ nickname: user.nickname });
 
     if (foundNickName) {
       throw new AlreadyExistsError('Nickname already exists');
