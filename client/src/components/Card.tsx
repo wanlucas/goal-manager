@@ -1,25 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import colors from '../constants/colors';
 
 interface CardProps {
   children: React.ReactNode;
-  sx?: React.CSSProperties;
 }
 
-const StyledCard = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center; 
-  flex-direction: column;
-  justify-content: center;
-  background: ${colors.white};
-  border-radius: 8px
-  padding: 25px;
-`;
-
-export default function Card({ children, sx }: CardProps) {
-  return (
-    <StyledCard style={{ ...sx }}>{ children }</StyledCard>
-  );
+export default function Card({ children }: CardProps) {
+  return <div className="flex-container bg-black bg-opacity-25 p-4 rounded">{ children }</div>;
 }

@@ -1,23 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
 
-interface FormProps {
-  children: React.ReactNode;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  sx?: React.CSSProperties;
+interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+ onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const StyledForm = styled.form`
-  width: 100%;
-`;
-
-export default function Form({ children, onSubmit, sx }: FormProps) {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function Form({ children, onSubmit, ...props }: FormProps) {
+  const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit(event);
   };
 
   return (
-    <StyledForm style={{ ...sx }} onSubmit={handleSubmit}>{ children }</StyledForm>
+    <form {...props} onSubmit={handleSubmit}>{ children }</form>
   );
 }

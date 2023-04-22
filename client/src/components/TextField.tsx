@@ -1,61 +1,86 @@
-import React from 'react';
-import styled from 'styled-components';
-import { inputHeights } from '../constants/sizes';
-import colors from '../constants/colors';
+import React, { useMemo, useState } from 'react';
 
-interface TextInputProps {
-  onChange: (value: any) => void;
-  value: string;
+interface TextFieldProps {
+  label?: string;
+  theme?: 'primary' | 'secondary' | 'tertiary';
+  type?: 'text' | 'number' | 'password';
   name: string;
-  size?: 'small' | 'large' | 'normal';
-  theme?: 'primary' | 'secondary';
-  type?: string;
-  placeholder?: string;
-  sx?: React.CSSProperties;
+  onChange: (target: { name: string; value: string }) => void;
 }
 
-const StyledTextInput = styled.input`
-  border: none;
-  width: 100%;
-  position: relative;
-  padding-inline: 15px;
-  border-radius: 10px;
-  background-color: ${colors.white};
-  border: 1px solid ${(props) => props.theme.bc};
-  &:focus {
-    border: 1px solid ${(props) => props.theme.fc};
-  }
-  outline: none;
-`;
-
-const themes = {
-  primary: {
-    bc: colors.gray,
-    fc: colors.secondary,
-  },
-  secondary: {
-    bc: colors.secondary,
-    fc: colors.black,
-  }
-};
-
 export default function TextField({
-  onChange, value, size, theme, name, type, placeholder, sx
-}: TextInputProps) {
+  onChange,
+  label,
+  type = 'text',
+  theme = 'secondary',
+  ...props
+}: TextFieldProps) {
+  const [isActive, setIsActive] = useState(false);
+  const [value, setValue] = useState('');
+
+  const handleChange = (event) => {
+    onChange && onChange(event.target);
+    setValue(event.target.value);
+  };
+
+  const handleFocus = (event) => {
+    if (event.type === 'blur') {
+      setIsActive(false);
+    } else setIsActive(true);
+  };
+
+  const inputStyleState = useMemo(() => {
+    const style = {
+      border: {
+        primary: 'border-b-primary',
+        secondary: 'border-b-secondary',
+        tertiary: 'border-b-tertiary',
+      }[theme],
+    };
+
+    return style;
+  }, [theme]);
+
+  const labelStyleState = useMemo(() => {
+    const style = {
+      text: 'text-white',
+      location: 'translate-x-1',
+    };
+
+    if (isActive || value) {
+      style.location = '-translate-y-3/4 translate-x-0 font-light';
+      style.text = {
+        primary: 'text-gray',
+        secondary: 'text-secondary',
+        tertiary: 'text-tertiary',
+      }[theme];
+    }
+
+    return style;
+  }, [isActive, theme]);
+
   return (
-    <StyledTextInput 
-      type={type || 'text'}
-      value={value}
-      name={name}
-      placeholder={placeholder}
-      theme={themes[theme || 'primary']}
-      style={{ 
-        ...sx,
-        paddingBlock: inputHeights[size || 'normal'],
-      }}
-      onChange={({ target }) => {
-        onChange((prev) => ({ ...prev, [name]: target.value }));
-      }}
-    />
+    <div className="relative h-7 my-5">
+      <input
+        {...props}
+        type={type}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleFocus}
+        className={[
+          'h-full text-white rounded-t outline-none z-10 border-b bg-transparent',
+          inputStyleState.border,
+        ].join(' ')}
+      />
+      <label
+        className={[
+          'absolute left-0 transition',
+          labelStyleState.location,
+          labelStyleState.text,
+        ].join(' ')}
+      >
+        {label}
+      </label>
+    </div>
   );
 }
